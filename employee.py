@@ -30,19 +30,19 @@ class Employee:
 
     def get_pay(self):
         if self.contract_type == "monthly":
-            pay =  self.salary
+            pay = self.salary
         elif self.contract_type == "hourly":
             pay = self.hours_worked * self.hourly_rate
         else:
             pay = 0
 
-        if self.commission == True:
+        if self.commission:
             if self.commission_type == "bonus":
                 pay += self.bonus
             elif self.commission_type == "contract":
                 pay += self.num_of_contracts * self.commission_per_contract
         
-        return pay
+        return round(pay, 2)
 
     def __str__(self):
         if self.contract_type == "monthly" and self.commission == False:
