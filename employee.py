@@ -26,37 +26,73 @@ class Employee:
         self.bonus = bonus
         self.num_of_contracts = num_of_contracts
         self.commission_per_contract = commission_per_contract
-
-
-    def get_pay(self):
+        
+    def calculate_contract_pay(self):
         if self.contract_type == "monthly":
-            pay = self.salary
+            return self.salary
         elif self.contract_type == "hourly":
-            pay = self.hours_worked * self.hourly_rate
+            return self.hours_worked * self.hourly_rate
         else:
-            pay = 0
+            return 0
 
+    def calculate_commission(self):
         if self.commission:
             if self.commission_type == "bonus":
-                pay += self.bonus
+                return self.bonus
             elif self.commission_type == "contract":
-                pay += self.num_of_contracts * self.commission_per_contract
+                return self.num_of_contracts * self.commission_per_contract
+        return 0
+
+    def get_pay(self):
+        return round(self.calculate_contract_pay() + self.calculate_commission(), 2)
+    
+        # if self.contract_type == "monthly":
+        #     pay = self.salary
+        # elif self.contract_type == "hourly":
+        #     pay = self.hours_worked * self.hourly_rate
+        # else:
+        #     pay = 0
+
+        # if self.commission:
+        #     if self.commission_type == "bonus":
+        #         pay += self.bonus
+        #     elif self.commission_type == "contract":
+        #         pay += self.num_of_contracts * self.commission_per_contract
         
-        return round(pay, 2)
+        # return round(pay, 2)
+
+    # def __str__(self):
+    #     if self.contract_type == "monthly" and self.commission == False:
+    #         return f"{self.name} works on a monthly salary of {self.salary}. Their total pay is {self.get_pay()}."
+    #     elif self.contract_type == "monthly" and self.commission == True and  self.commission_type == "bonus":
+    #         return f"{self.name} works on a monthly salary of {self.salary} and receives a bonus commission of {self.bonus}. Their total pay is {self.get_pay()}"
+    #     elif self.contract_type == "monthly" and self.commission == True and self.commission_type == "contract":
+    #         return f"{self.name} works on a monthly salary of {self.salary} and receives a commission for {self.num_of_contracts} contract(s) at {self.commission_per_contract}/contract. Their total pay is {self.get_pay()}"
+    #     elif self.contract_type == "hourly" and self.commission == False:
+    #         return f"{self.name} works on a contract of {self.hours_worked} hours at {self.hourly_rate}/hour. Their total pay is {self.get_pay()}."
+    #     elif self.contract_type == "hourly" and self.commission == True and self.commission_type == "bonus":
+    #         return f"{self.name} works on a contract of {self.hours_worked}/hours and receives a bonus commission of {self.bonus}. Their total pay is {self.get_pay()}"
+    #     elif self.contract_type == "hourly" and self.commission == True and self.commission_type == "contract":
+    #         return f"{self.name} works on a contract of {self.hours_worked}/hours at {self.hourly_rate}/hour and receives a commission for {self.num_of_contracts} contract(s) at {self.commission_per_contract}/contract. Their total pay is {self.get_pay()}"
 
     def __str__(self):
-        if self.contract_type == "monthly" and self.commission == False:
-            return f"{self.name} works on a monthly salary of {self.salary}. Their total pay is {self.get_pay()}."
-        elif self.contract_type == "monthly" and self.commission == True and  self.commission_type == "bonus":
-            return f"{self.name} works on a monthly salary of {self.salary} and receives a bonus commission of {self.bonus}. Their total pay is {self.get_pay()}"
-        elif self.contract_type == "monthly" and self.commission == True and self.commission_type == "contract":
-            return f"{self.name} works on a monthly salary of {self.salary} and receives a commission for {self.num_of_contracts} contract(s) at {self.commission_per_contract}/contract. Their total pay is {self.get_pay()}"
-        elif self.contract_type == "hourly" and self.commission == False:
-            return f"{self.name} works on a contract of {self.hours_worked} hours at {self.hourly_rate}/hour. Their total pay is {self.get_pay()}."
-        elif self.contract_type == "hourly" and self.commission == True and self.commission_type == "bonus":
-            return f"{self.name} works on a contract of {self.hours_worked}/hours and receives a bonus commission of {self.bonus}. Their total pay is {self.get_pay()}"
-        elif self.contract_type == "hourly" and self.commission == True and self.commission_type == "contract":
-            return f"{self.name} works on a contract of {self.hours_worked}/hours at {self.hourly_rate}/hour and receives a commission for {self.num_of_contracts} contract(s) at {self.commission_per_contract}/contract. Their total pay is {self.get_pay()}"
+        if self.contract_type == "monthly":
+            contract_str = f"{self.name} works on a monthly salary of {self.salary}."
+        elif self.contract_type == "hourly":
+            contract_str = f"{self.name} works on a contract of {self.hours_worked} hours at {self.hourly_rate}/hour."
+        else:
+            contract_str = ""
+
+        commission_str = ""
+        if self.commission:
+            if self.commission_type == "bonus":
+                commission_str = f" and receives a bonus commission of {self.bonus}."
+            elif self.commission_type == "contract":
+                commission_str = f" and receives a commission for {self.num_of_contracts} contract(s) at {self.commission_per_contract}/contract."
+
+        return f"{contract_str}{commission_str} Their total pay is {self.get_pay()}."
+
+
 
 # Billie works on a monthly salary of 4000.  Their total pay is 4000.
 billie = Employee('Billie', 'monthly', salary=4000)
